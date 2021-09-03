@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskingoAPI", "TaskingoAPI.csproj", "{02C7DBE5-9BC2-4689-A2E6-3D1F6D1F02B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskingoAPI", "TaskingoAPI.csproj", "{02C7DBE5-9BC2-4689-A2E6-3D1F6D1F02B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskingoAPI.Database", "..\TaskingoAPI.Database\TaskingoAPI.Database.csproj", "{66DD1B29-7D85-4089-922B-542FF76B3121}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskingoAPI.Services", "..\TaskingoAPI.Services\TaskingoAPI.Services.csproj", "{430B6079-D042-4652-8525-751A3B3C2587}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskingoAPI.Dto", "..\TaskingoAPI.Dto\TaskingoAPI.Dto.csproj", "{0B03547F-8411-4DB4-83F2-356FD28013BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskingoAPI.Exceptions", "..\TaskingoAPI.Exceptions\TaskingoAPI.Exceptions.csproj", "{9B1AD754-65AC-4D7D-BAEC-B1D4B5CBA637}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,22 @@ Global
 		{02C7DBE5-9BC2-4689-A2E6-3D1F6D1F02B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02C7DBE5-9BC2-4689-A2E6-3D1F6D1F02B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02C7DBE5-9BC2-4689-A2E6-3D1F6D1F02B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66DD1B29-7D85-4089-922B-542FF76B3121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66DD1B29-7D85-4089-922B-542FF76B3121}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66DD1B29-7D85-4089-922B-542FF76B3121}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66DD1B29-7D85-4089-922B-542FF76B3121}.Release|Any CPU.Build.0 = Release|Any CPU
+		{430B6079-D042-4652-8525-751A3B3C2587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{430B6079-D042-4652-8525-751A3B3C2587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{430B6079-D042-4652-8525-751A3B3C2587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{430B6079-D042-4652-8525-751A3B3C2587}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B03547F-8411-4DB4-83F2-356FD28013BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B03547F-8411-4DB4-83F2-356FD28013BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B03547F-8411-4DB4-83F2-356FD28013BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B03547F-8411-4DB4-83F2-356FD28013BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B1AD754-65AC-4D7D-BAEC-B1D4B5CBA637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B1AD754-65AC-4D7D-BAEC-B1D4B5CBA637}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B1AD754-65AC-4D7D-BAEC-B1D4B5CBA637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B1AD754-65AC-4D7D-BAEC-B1D4B5CBA637}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
