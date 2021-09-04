@@ -7,10 +7,6 @@ namespace TaskingoAPI.Controllers
     [Route("/User")]
     public class UserController : ControllerBase
     {
-        public UserController(ILogger<UserController> logger)
-        {
-            logger.LogError("test");
-        }
         [HttpGet("GetAll")]
         public ActionResult<string> GetClientsList()
         {
