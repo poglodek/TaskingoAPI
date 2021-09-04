@@ -1,16 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using TaskingoAPI.Dto;
 
 namespace TaskingoAPI
 {
@@ -26,7 +22,7 @@ namespace TaskingoAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<TaskingoDbContext>(options => options.UseSqlServer("Server=.;Database=TaskingoAPI;Trusted_Connection=True;"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -35,7 +31,7 @@ namespace TaskingoAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -44,6 +40,8 @@ namespace TaskingoAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskingoAPI v1"));
             }
 
+            var database = serviceProvider.GetService<TaskingoDbContext>();
+            database.Database.Migrate();
             app.UseHttpsRedirection();
 
             app.UseRouting();
