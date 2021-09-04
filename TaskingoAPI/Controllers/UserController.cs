@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace TaskingoAPI.Controllers
 {
@@ -6,6 +7,10 @@ namespace TaskingoAPI.Controllers
     [Route("/User")]
     public class UserController : ControllerBase
     {
+        public UserController(ILogger<UserController> logger)
+        {
+            logger.LogError("test");
+        }
         [HttpGet("GetAll")]
         public ActionResult<string> GetClientsList()
         {

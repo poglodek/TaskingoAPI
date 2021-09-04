@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using NLog;
 using TaskingoAPI.Dto;
 
 namespace TaskingoAPI
@@ -22,6 +23,7 @@ namespace TaskingoAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ErrorHandlingMiddleware>();
             services.AddDbContext<TaskingoDbContext>(options => options.UseSqlServer("Server=.;Database=TaskingoAPI;Trusted_Connection=True;"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -39,7 +41,7 @@ namespace TaskingoAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskingoAPI v1"));
             }
-
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             var database = serviceProvider.GetService<TaskingoDbContext>();
             database.Database.Migrate();
             app.UseHttpsRedirection();
