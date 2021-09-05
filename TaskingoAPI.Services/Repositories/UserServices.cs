@@ -77,6 +77,15 @@ namespace TaskingoAPI.Services.Repositories
             return tokenHandler.WriteToken(token);
         }
 
+        public List<UserDto> GetAllUser()
+        {
+            var users = _taskingoDbContext
+                .Users
+                .ToList();
+            var usersDto = _mapper.Map<List<UserDto>>(users);
+            return usersDto;
+        }
+
         private List<Claim> GetClaims(User user)
         {
             var claims = new List<Claim>

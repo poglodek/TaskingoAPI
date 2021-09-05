@@ -1,4 +1,5 @@
-﻿using TaskingoAPI.Dto.User;
+﻿using System.Collections.Generic;
+using TaskingoAPI.Dto.User;
 
 namespace TaskingoAPI.Services.IRepositories
 {
@@ -6,5 +7,6 @@ namespace TaskingoAPI.Services.IRepositories
     {
         int RegisterUser(UserCreatedDto userDto);
         string LoginUser(UserLoginDto userLoginDto);
+        List<UserDto> GetAllUser();
     }
 }

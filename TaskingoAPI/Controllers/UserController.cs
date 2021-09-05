@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TaskingoAPI.Dto.User;
@@ -17,9 +18,9 @@ namespace TaskingoAPI.Controllers
             _userServices = userServices;
         }
         [HttpGet("GetAll")]
-        public ActionResult<string> GetClientsList()
+        public ActionResult<List<UserDto>> GetClientsList()
         {
-            var users = "All Users";
+            var users = _userServices.GetAllUser();
             return Ok(users);
         }
         [HttpPost("login")]

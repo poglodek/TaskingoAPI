@@ -14,6 +14,7 @@ namespace TaskingoAPI.Dto
         {
             CreateMap<Entity.User, UserCreatedDto>().ReverseMap();
             CreateMap<Entity.User, UserLoginDto>().ReverseMap();
+            CreateMap<Entity.User, UserDto>().ReverseMap();
         }
     }
 }
