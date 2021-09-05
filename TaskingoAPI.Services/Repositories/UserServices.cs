@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
@@ -43,13 +45,17 @@ namespace TaskingoAPI.Services.Repositories
             var user = _mapper.Map<User>(userDto);
             user.Role = GetDefaultRole();
             user.ActualStatus = "Free";
-            var hashedPassword = _passwordHasher.HashPassword(user, user.PasswordHashed);
+            var hashedPassword = GetPassword(user, user.PasswordHashed);
             user.PasswordHashed = hashedPassword;
             _taskingoDbContext.Users.Add(user);
             _taskingoDbContext.SaveChanges();
             return user.Id;
         }
 
+        private string GetPassword(User user, string password)
+        {
+            return _passwordHasher.HashPassword(user, password);
+        }
         public string LoginUser(UserLoginDto userLoginDto)
         {
             var user = _taskingoDbContext
@@ -86,6 +92,32 @@ namespace TaskingoAPI.Services.Repositories
             return usersDto;
         }
 
+        public void ForgotPassword(string email)
+        {
+            var user = GetUserByMail(email);
+            var smtpClient = new SmtpClient("smtp.gmail.com",587);
+            smtpClient.Credentials = new NetworkCredential("yourMail@gmail.com", "Password123");
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.EnableSsl = true;
+            var mail = CreateMail(user, email);
+            smtpClient.Send(mail);
+        }
+
+        private MailMessage CreateMail(User user, string email)
+        {
+            var mail = new MailMessage();
+            mail.Subject = "Forgot Password";
+            var password = NewPassword();
+            user.PasswordHashed = GetPassword(user, password);
+            mail.Body = "Your new  Password is: " + password;
+            mail.BodyEncoding = System.Text.Encoding.UTF8;
+            mail.From = new MailAddress("yourMail@gmail.com", "Taskingo");
+            mail.To.Add(new MailAddress("yourMail@gmail.com"));
+            mail.CC.Add(email);
+            _taskingoDbContext.SaveChanges();
+            return mail;
+        }
+
         private List<Claim> GetClaims(User user)
         {
             var claims = new List<Claim>
@@ -98,6 +130,29 @@ namespace TaskingoAPI.Services.Repositories
             return claims;
         }
 
+        private string NewPassword()
+        {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var stringChars = new char[12];
+            var random = new Random();
+
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+
+            return new String(stringChars);
+        }
+
+        private User GetUserByMail(string mail)
+        {
+            var user = _taskingoDbContext
+                .Users
+                .Where(x => x.Email.ToUpper().Equals(mail.ToUpper()))
+                .FirstOrDefault();
+            if (user is null) throw new NotFound("User not found");
+            return user;
+        }
         private Role GetDefaultRole()
         {
             return _taskingoDbContext.Roles.First();

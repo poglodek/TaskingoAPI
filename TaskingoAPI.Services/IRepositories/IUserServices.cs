@@ -8,5 +8,6 @@ namespace TaskingoAPI.Services.IRepositories
         int RegisterUser(UserCreatedDto userDto);
         string LoginUser(UserLoginDto userLoginDto);
         List<UserDto> GetAllUser();
+        void ForgotPassword(string email);
     }
 }

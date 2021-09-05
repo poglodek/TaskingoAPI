@@ -30,10 +30,16 @@ namespace TaskingoAPI.Controllers
             return Ok(token);
         }
         [HttpPost("register")]
-        public ActionResult login([FromBody]UserCreatedDto userCreatedDto)
+        public ActionResult register([FromBody]UserCreatedDto userCreatedDto)
         {
             var id = _userServices.RegisterUser(userCreatedDto);
             return Created($"/user/{id}", null);
+        }
+        [HttpGet("ForgotPassword")]
+        public ActionResult ForgotPassword([FromQuery] string email)
+        {
+            _userServices.ForgotPassword(email);
+            return Ok();
         }
 
     }
