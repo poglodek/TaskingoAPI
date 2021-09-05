@@ -1,4 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -6,10 +10,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
-using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using TaskingoAPI.Database.Entity;
 using TaskingoAPI.Dto;
 using TaskingoAPI.Dto.Entity;
@@ -26,6 +26,7 @@ namespace TaskingoAPI.Services.Repositories
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly AuthenticationSettings _authenticationSettings;
         private readonly IMapper _mapper;
+        private const string ServiceMail = "yourMail@gmail.com";
 
         public UserServices(TaskingoDbContext taskingoDbContext,
             IPasswordHasher<User> passwordHasher,
@@ -38,11 +39,12 @@ namespace TaskingoAPI.Services.Repositories
             _mapper = mapper;
         }
 
-        
+
 
         public int RegisterUser(UserCreatedDto userDto)
         {
             var user = _mapper.Map<User>(userDto);
+            if (string.IsNullOrEmpty(user.PasswordHashed)) user.PasswordHashed = NewPassword();
             user.Role = GetDefaultRole();
             user.ActualStatus = "Free";
             var hashedPassword = GetPassword(user, user.PasswordHashed);
@@ -95,8 +97,8 @@ namespace TaskingoAPI.Services.Repositories
         public void ForgotPassword(string email)
         {
             var user = GetUserByMail(email);
-            var smtpClient = new SmtpClient("smtp.gmail.com",587);
-            smtpClient.Credentials = new NetworkCredential("yourMail@gmail.com", "Password123");
+            var smtpClient = new SmtpClient("smtp.gmail.com", 587);
+            smtpClient.Credentials = new NetworkCredential(ServiceMail, "Password123");
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.EnableSsl = true;
             var mail = CreateMail(user, email);
@@ -111,8 +113,8 @@ namespace TaskingoAPI.Services.Repositories
             user.PasswordHashed = GetPassword(user, password);
             mail.Body = "Your new  Password is: " + password;
             mail.BodyEncoding = System.Text.Encoding.UTF8;
-            mail.From = new MailAddress("yourMail@gmail.com", "Taskingo");
-            mail.To.Add(new MailAddress("yourMail@gmail.com"));
+            mail.From = new MailAddress(ServiceMail, "Taskingo");
+            mail.To.Add(new MailAddress(ServiceMail));
             mail.CC.Add(email);
             _taskingoDbContext.SaveChanges();
             return mail;
@@ -157,6 +159,6 @@ namespace TaskingoAPI.Services.Repositories
         {
             return _taskingoDbContext.Roles.First();
         }
-        
+
     }
 }

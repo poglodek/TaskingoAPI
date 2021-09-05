@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaskingoAPI.Database.Entity;
-using TaskingoAPI.Dto.Entity;
-
-namespace TaskingoAPI.Dto.User
+﻿namespace TaskingoAPI.Dto.User
 {
     public class UserDto
     {

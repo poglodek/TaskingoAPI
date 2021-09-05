@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using TaskingoAPI.Dto.User;
 using TaskingoAPI.Services.IRepositories;
 
@@ -24,13 +22,13 @@ namespace TaskingoAPI.Controllers
             return Ok(users);
         }
         [HttpPost("login")]
-        public ActionResult<string> login([FromBody]UserLoginDto userLoginDto)
+        public ActionResult<string> login([FromBody] UserLoginDto userLoginDto)
         {
             var token = _userServices.LoginUser(userLoginDto);
             return Ok(token);
         }
         [HttpPost("register")]
-        public ActionResult register([FromBody]UserCreatedDto userCreatedDto)
+        public ActionResult register([FromBody] UserCreatedDto userCreatedDto)
         {
             var id = _userServices.RegisterUser(userCreatedDto);
             return Created($"/user/{id}", null);
