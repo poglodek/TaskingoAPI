@@ -6,12 +6,16 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="WorkTask\" />
-    <Folder Include="User\" />
     <Folder Include="WorkTime\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskingoAPI.Dto\TaskingoAPI.Database.csproj" />
   </ItemGroup>
 
 </Project>

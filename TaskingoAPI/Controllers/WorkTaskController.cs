@@ -3,8 +3,8 @@
 namespace TaskingoAPI.Controllers
 {
     [ApiController]
-    [Route("/Task")]
-    public class TaskController : ControllerBase
+    [Route("/WorkTask")]
+    public class WorkTaskController : ControllerBase
     {
         [HttpGet("GetAll")]
         public ActionResult<string> GetClientsList()

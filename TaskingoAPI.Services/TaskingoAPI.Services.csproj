@@ -5,7 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="IRepositories\" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskingoAPI.Database\TaskingoAPI.Dto.csproj" />
+    <ProjectReference Include="..\TaskingoAPI.Dto\TaskingoAPI.Database.csproj" />
+    <ProjectReference Include="..\TaskingoAPI.Exceptions\TaskingoAPI.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskingoAPI.Dto;
 
 namespace TaskingoAPI.Database.Migrations
 {
     [DbContext(typeof(TaskingoDbContext))]
-    partial class TaskingoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210905113320_addingPasswordHashed")]
+    partial class addingPasswordHashed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
