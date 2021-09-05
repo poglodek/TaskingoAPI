@@ -57,7 +57,7 @@ namespace TaskingoAPI
             services.AddScoped<IValidator<UserCreatedDto>, UserCreatedDtoValidation>();
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-            services.AddAutoMapper(typeof(TaskingoDbContext).Assembly);
+            services.AddAutoMapper(typeof(TaskingoMapper).Assembly);
             services.AddSingleton(authSettings);
             services.AddTransient<ErrorHandlingMiddleware>();
             services.AddDbContext<TaskingoDbContext>(options => options.UseSqlServer("Server=.;Database=TaskingoAPI;Trusted_Connection=True;"));

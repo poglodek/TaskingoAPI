@@ -4,7 +4,7 @@ namespace TaskingoAPI.Services.IRepositories
 {
     public interface IUserServices
     {
-       // int RegisterUser(UserCreatedDto userDto);
-      //  string LoginUser(UserLoginDto userLoginDto);
+        int RegisterUser(UserCreatedDto userDto);
+        string LoginUser(UserLoginDto userLoginDto);
     }
 }

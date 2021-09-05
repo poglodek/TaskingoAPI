@@ -36,7 +36,7 @@ namespace TaskingoAPI.Services.Repositories
             _mapper = mapper;
         }
 
-        /*
+        
 
         public int RegisterUser(UserCreatedDto userDto)
         {
@@ -93,6 +93,6 @@ namespace TaskingoAPI.Services.Repositories
         {
             return _taskingoDbContext.Roles.First();
         }
-        */
+        
     }
 }

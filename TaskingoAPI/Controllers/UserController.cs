@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TaskingoAPI.Dto.User;
+using TaskingoAPI.Services.IRepositories;
 
 namespace TaskingoAPI.Controllers
 {
@@ -8,9 +10,11 @@ namespace TaskingoAPI.Controllers
     [Route("/User")]
     public class UserController : ControllerBase
     {
-        public UserController()
+        private readonly IUserServices _userServices;
+
+        public UserController(IUserServices userServices)
         {
-            
+            _userServices = userServices;
         }
         [HttpGet("GetAll")]
         public ActionResult<string> GetClientsList()
@@ -21,8 +25,14 @@ namespace TaskingoAPI.Controllers
         [HttpPost("login")]
         public ActionResult<string> login([FromBody]UserLoginDto userLoginDto)
         {
-            
-            return Ok();
+            var token = _userServices.LoginUser(userLoginDto);
+            return Ok(token);
+        }
+        [HttpPost("register")]
+        public ActionResult login([FromBody]UserCreatedDto userCreatedDto)
+        {
+            var id = _userServices.RegisterUser(userCreatedDto);
+            return Created($"/user/{id}", null);
         }
 
     }
