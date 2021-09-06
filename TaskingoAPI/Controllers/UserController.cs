@@ -16,19 +16,19 @@ namespace TaskingoAPI.Controllers
             _userServices = userServices;
         }
         [HttpGet("GetAll")]
-        public ActionResult<List<UserDto>> GetClientsList()
+        public ActionResult<List<UserDto>> GetAllUsers()
         {
             var users = _userServices.GetAllUser();
             return Ok(users);
         }
-        [HttpPost("login")]
-        public ActionResult<string> login([FromBody] UserLoginDto userLoginDto)
+        [HttpPost("Login")]
+        public ActionResult<string> Login([FromBody] UserLoginDto userLoginDto)
         {
             var token = _userServices.LoginUser(userLoginDto);
             return Ok(token);
         }
-        [HttpPost("register")]
-        public ActionResult register([FromBody] UserCreatedDto userCreatedDto)
+        [HttpPost("Register")]
+        public ActionResult Register([FromBody] UserCreatedDto userCreatedDto)
         {
             var id = _userServices.RegisterUser(userCreatedDto);
             return Created($"/user/{id}", null);
