@@ -5,8 +5,9 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using TaskingoAPI.Database;
+using TaskingoAPI.Database.Entity;
 using TaskingoAPI.Dto;
-using TaskingoAPI.Dto.Entity;
 using TaskingoAPI.Services.IRepositories;
 
 namespace TaskingoAPI.Services.Repositories
@@ -17,15 +18,12 @@ namespace TaskingoAPI.Services.Repositories
         private readonly IUserServices _userServices;
         private const string ServiceMail = "yourMail@gmail.com";
 
-        public MailServices(TaskingoDbContext taskingoDbContext, 
-            IUserServices userServices)
-        {
+        public MailServices(TaskingoDbContext taskingoDbContext
+        ){
             _taskingoDbContext = taskingoDbContext;
-            _userServices = userServices;
         }
-        public void ForgotPassword(string email)
+        public void ForgotPassword(string email, User user)
         {
-            var user = _userServices.GetUserByMail(email);
             var smtpClient = new SmtpClient("smtp.gmail.com", 587);
             smtpClient.Credentials = new NetworkCredential(ServiceMail, "Password123");
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;

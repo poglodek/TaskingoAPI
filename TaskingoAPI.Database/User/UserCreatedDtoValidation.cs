@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using System.Linq;
+using TaskingoAPI.Database;
 
 namespace TaskingoAPI.Dto.User
 {

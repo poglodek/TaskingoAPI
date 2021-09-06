@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskingoAPI.Dto.WorkTask;
+using TaskingoAPI.Services.IRepositories;
 
 namespace TaskingoAPI.Controllers
 {
@@ -6,11 +8,17 @@ namespace TaskingoAPI.Controllers
     [Route("/WorkTask")]
     public class WorkTaskController : ControllerBase
     {
-        [HttpGet("GetAll")]
-        public ActionResult<string> GetClientsList()
+        private readonly IWorkTaskServices _workTaskServices;
+
+        public WorkTaskController(IWorkTaskServices workTaskServices)
         {
-            var users = "All Users";
-            return Ok(users);
+            _workTaskServices = workTaskServices;
+        }
+        [HttpPost("Add")]
+        public ActionResult<int> AddWorkTask([FromBody] WorkTaskCreatedDto workTaskCreatedDto)
+        {
+            var id = _workTaskServices.CreateNewTask(workTaskCreatedDto);
+            return Created($"/WorkTask/{id}", null);
         }
 
     }

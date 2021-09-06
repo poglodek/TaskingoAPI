@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TaskingoAPI.Dto.Entity;
+using TaskingoAPI.Database.Entity;
 using TaskingoAPI.Dto.User;
 
 namespace TaskingoAPI.Services.IRepositories
@@ -14,5 +14,6 @@ namespace TaskingoAPI.Services.IRepositories
         public string NewPassword();
         public string GetPassword(User user, string password);
         string GetMyName();
+        public User GetUserById(int id);
     }
 }

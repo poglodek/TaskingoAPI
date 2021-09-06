@@ -10,9 +10,9 @@ using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
+using TaskingoAPI.Database;
 using TaskingoAPI.Database.Entity;
 using TaskingoAPI.Dto;
-using TaskingoAPI.Dto.Entity;
 using TaskingoAPI.Dto.User;
 using TaskingoAPI.Exceptions;
 using TaskingoAPI.Services.Authentication;
@@ -71,6 +71,14 @@ namespace TaskingoAPI.Services.Repositories
             if (name is null) throw new NotFound("User not found");
             return name;
         }
+        public User GetUserById(int id)
+        {
+            var user = _taskingoDbContext
+                .Users
+                .FirstOrDefault(x => x.Id == id);
+            if (user is null) throw new NotFound("User not found");
+            return user;
+        }
 
         public string LoginUser(UserLoginDto userLoginDto)
         {
@@ -110,7 +118,8 @@ namespace TaskingoAPI.Services.Repositories
 
         public void ForgotPassword(string email)
         {
-            _mailServices.ForgotPassword(email);
+             var user = GetUserByMail(email);
+            _mailServices.ForgotPassword(email, user);
         }
 
         public string NewPassword()

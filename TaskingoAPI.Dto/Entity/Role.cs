@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using TaskingoAPI.Dto.Entity;
 
 namespace TaskingoAPI.Database.Entity
 {

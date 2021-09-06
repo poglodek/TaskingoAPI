@@ -1,10 +1,10 @@
 ﻿using System.Net.Mail;
-using TaskingoAPI.Dto.Entity;
+using TaskingoAPI.Database.Entity;
 
 namespace TaskingoAPI.Services.IRepositories
 {
     public interface IMailServices
     {
-        void ForgotPassword(string email);
+        void ForgotPassword(string email, User user);
     }
 }

@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskingoAPI.Database.Entity;
-using TaskingoAPI.Dto.Entity;
 
-namespace TaskingoAPI.Dto
+namespace TaskingoAPI.Database
 {
     public class TaskingoDbContext : DbContext
     {

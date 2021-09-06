@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TaskingoAPI.Dto.Entity
+namespace TaskingoAPI.Database.Entity
 {
     public class WorkTime
     {

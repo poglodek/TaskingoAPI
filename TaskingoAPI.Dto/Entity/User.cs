@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using TaskingoAPI.Database.Entity;
 
-namespace TaskingoAPI.Dto.Entity
+namespace TaskingoAPI.Database.Entity
 {
     public class User
     {
