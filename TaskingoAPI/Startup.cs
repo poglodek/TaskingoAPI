@@ -55,6 +55,7 @@ namespace TaskingoAPI
             services.AddControllers().AddFluentValidation();
             services.AddScoped<IValidator<UserCreatedDto>, UserCreatedDtoValidation>();
             services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<IMailServices, MailServices>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddAutoMapper(typeof(TaskingoMapper).Assembly);
             services.AddSingleton(authSettings);
