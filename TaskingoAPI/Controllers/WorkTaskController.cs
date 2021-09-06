@@ -14,11 +14,17 @@ namespace TaskingoAPI.Controllers
         {
             _workTaskServices = workTaskServices;
         }
-        [HttpPost("Add")]
+        [HttpPost]
         public ActionResult<int> AddWorkTask([FromBody] WorkTaskCreatedDto workTaskCreatedDto)
         {
             var id = _workTaskServices.CreateNewTask(workTaskCreatedDto);
             return Created($"/WorkTask/{id}", null);
+        }
+        [HttpDelete("{id}")]
+        public ActionResult Delete([FromRoute]int id)
+        {
+            _workTaskServices.DeleteTaskById(id);
+            return NoContent();
         }
 
     }

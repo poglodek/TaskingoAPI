@@ -15,5 +15,6 @@ namespace TaskingoAPI.Services.IRepositories
         public string GetPassword(User user, string password);
         string GetMyName();
         public User GetUserById(int id);
+        void DeActiveUserById(int id);
     }
 }

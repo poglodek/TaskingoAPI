@@ -45,6 +45,12 @@ namespace TaskingoAPI.Controllers
             var name = _userServices.GetMyName();
             return Ok(name);
         }
+        [HttpDelete]
+        public ActionResult DeActiveUser([FromRoute]int id)
+        {
+            _userServices.DeActiveUserById(id);
+            return Ok();
+        }
 
     }
 }

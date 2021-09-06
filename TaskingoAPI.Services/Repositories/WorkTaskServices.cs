@@ -8,6 +8,7 @@ using TaskingoAPI.Database;
 using TaskingoAPI.Database.Entity;
 using TaskingoAPI.Dto;
 using TaskingoAPI.Dto.WorkTask;
+using TaskingoAPI.Exceptions;
 using TaskingoAPI.Services.IRepositories;
 
 namespace TaskingoAPI.Services.Repositories
@@ -40,6 +41,22 @@ namespace TaskingoAPI.Services.Repositories
             _taskingoDbContext.WorkTasks.Add(workTask);
             _taskingoDbContext.SaveChanges();
             return workTask.Id;
+        }
+
+        public void DeleteTaskById(int id)
+        {
+            var task = GetTaskById(id);
+            _taskingoDbContext.WorkTasks.Remove(task);
+            _taskingoDbContext.SaveChanges();
+        }
+
+        private WorkTask GetTaskById(int id)
+        {
+            var task = _taskingoDbContext
+                .WorkTasks
+                .FirstOrDefault(x => x.Id == id);
+            if (task is null) throw new NotFound("Task not found.");
+            return task;
         }
     }
 }

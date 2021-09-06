@@ -11,6 +11,7 @@ namespace TaskingoAPI.Database.Entity
         public string PasswordHashed { get; set; }
         public string ActualStatus { get; set; }
         public int Phone { get; set; }
+        public bool IsActive { get; set; }
         public string Address { get; set; }
         public virtual Role Role { get; set; }
         public virtual List<WorkTask> WorkTasks { get; set; }

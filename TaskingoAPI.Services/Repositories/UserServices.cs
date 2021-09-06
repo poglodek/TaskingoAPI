@@ -52,6 +52,7 @@ namespace TaskingoAPI.Services.Repositories
             if (string.IsNullOrEmpty(user.PasswordHashed)) user.PasswordHashed = NewPassword();
             user.Role = GetDefaultRole();
             user.ActualStatus = "Free";
+            user.IsActive = true;
             var hashedPassword = GetPassword(user, user.PasswordHashed);
             user.PasswordHashed = hashedPassword;
             _taskingoDbContext.Users.Add(user);
@@ -78,6 +79,13 @@ namespace TaskingoAPI.Services.Repositories
                 .FirstOrDefault(x => x.Id == id);
             if (user is null) throw new NotFound("User not found");
             return user;
+        }
+
+        public void DeActiveUserById(int id)
+        {
+            var user = GetUserById(id);
+            user.IsActive = false;
+            _taskingoDbContext.SaveChanges();
         }
 
         public string LoginUser(UserLoginDto userLoginDto)
@@ -111,6 +119,7 @@ namespace TaskingoAPI.Services.Repositories
         {
             var users = _taskingoDbContext
                 .Users
+                .Where(x => x.IsActive == true)
                 .ToList();
             var usersDto = _mapper.Map<List<UserDto>>(users);
             return usersDto;
