@@ -13,5 +13,6 @@ namespace TaskingoAPI.Services.IRepositories
         void ForgotPassword(string email);
         public string NewPassword();
         public string GetPassword(User user, string password);
+        string GetMyName();
     }
 }

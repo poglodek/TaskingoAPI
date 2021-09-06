@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="WorkTask\" />
     <Folder Include="WorkTime\" />
   </ItemGroup>
 

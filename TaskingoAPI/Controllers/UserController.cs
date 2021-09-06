@@ -39,6 +39,12 @@ namespace TaskingoAPI.Controllers
             _userServices.ForgotPassword(email);
             return Ok();
         }
+        [HttpGet("GetMyName")]
+        public ActionResult<string> GetMyName()
+        {
+            var name = _userServices.GetMyName();
+            return Ok(name);
+        }
 
     }
 }

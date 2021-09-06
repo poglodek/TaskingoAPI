@@ -26,19 +26,21 @@ namespace TaskingoAPI.Services.Repositories
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IMailServices _mailServices;
         private readonly AuthenticationSettings _authenticationSettings;
+        private readonly IUserContextServices _userContextServices;
         private readonly IMapper _mapper;
-        private const string ServiceMail = "yourMail@gmail.com";
 
         public UserServices(TaskingoDbContext taskingoDbContext,
             IPasswordHasher<User> passwordHasher,
             IMailServices mailServices,
             AuthenticationSettings authenticationSettings,
+            IUserContextServices userContextServices,
            IMapper mapper)
         {
             _taskingoDbContext = taskingoDbContext;
             _passwordHasher = passwordHasher;
             _mailServices = mailServices;
             _authenticationSettings = authenticationSettings;
+            _userContextServices = userContextServices;
             _mapper = mapper;
         }
 
@@ -61,6 +63,15 @@ namespace TaskingoAPI.Services.Repositories
         {
             return _passwordHasher.HashPassword(user, password);
         }
+
+        public string GetMyName()
+        {
+            var user = _userContextServices.GetUser;
+            var name = user.Identity.Name;
+            if (name is null) throw new NotFound("User not found");
+            return name;
+        }
+
         public string LoginUser(UserLoginDto userLoginDto)
         {
             var user = _taskingoDbContext
@@ -102,19 +113,6 @@ namespace TaskingoAPI.Services.Repositories
             _mailServices.ForgotPassword(email);
         }
 
-
-        private List<Claim> GetClaims(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
-                new Claim(ClaimTypes.Role, $"{user}")
-            };
-            return claims;
-        }
-
         public string NewPassword()
         {
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -142,6 +140,16 @@ namespace TaskingoAPI.Services.Repositories
         {
             return _taskingoDbContext.Roles.First();
         }
-
+        private List<Claim> GetClaims(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                new Claim(ClaimTypes.Role, $"{user}")
+            };
+            return claims;
+        }
     }
 }
