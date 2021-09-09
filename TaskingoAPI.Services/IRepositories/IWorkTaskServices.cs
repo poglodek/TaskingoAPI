@@ -1,4 +1,5 @@
-﻿using TaskingoAPI.Dto.WorkTask;
+﻿using System.Collections.Generic;
+using TaskingoAPI.Dto.WorkTask;
 
 namespace TaskingoAPI.Services.IRepositories
 {
@@ -6,5 +7,6 @@ namespace TaskingoAPI.Services.IRepositories
     {
         int CreateNewTask(WorkTaskCreatedDto workTaskCreatedDto);
         void DeleteTaskById(int id);
+        List<WorkTaskDto> GetTaskByMonth(int month, int year);
     }
 }

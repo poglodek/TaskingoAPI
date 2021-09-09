@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TaskingoAPI.Database;
 using TaskingoAPI.Database.Entity;
 using TaskingoAPI.Dto;
@@ -48,6 +49,19 @@ namespace TaskingoAPI.Services.Repositories
             var task = GetTaskById(id);
             _taskingoDbContext.WorkTasks.Remove(task);
             _taskingoDbContext.SaveChanges();
+        }
+
+        public List<WorkTaskDto> GetTaskByMonth(int month, int year)
+        {
+            var tasks = _taskingoDbContext
+                .WorkTasks
+                .Include(x => x.WhoCreated)
+                .Where(x => x.DeadLine.Month.Equals(month) && x.DeadLine.Year.Equals(year))
+                .ToList();
+
+            var tasksDto = _mapper.Map<List<WorkTaskDto>>(tasks);
+            return tasksDto;
+
         }
 
         private WorkTask GetTaskById(int id)
