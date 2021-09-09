@@ -1,5 +1,4 @@
-﻿using System.Net.Mail;
-using TaskingoAPI.Database.Entity;
+﻿using TaskingoAPI.Database.Entity;
 
 namespace TaskingoAPI.Services.IRepositories
 {

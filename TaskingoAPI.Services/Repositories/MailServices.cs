@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 using TaskingoAPI.Database;
 using TaskingoAPI.Database.Entity;
-using TaskingoAPI.Dto;
 using TaskingoAPI.Services.IRepositories;
 
 namespace TaskingoAPI.Services.Repositories
@@ -19,7 +13,8 @@ namespace TaskingoAPI.Services.Repositories
         private const string ServiceMail = "yourMail@gmail.com";
 
         public MailServices(TaskingoDbContext taskingoDbContext
-        ){
+        )
+        {
             _taskingoDbContext = taskingoDbContext;
         }
         public void ForgotPassword(string email, User user)

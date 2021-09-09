@@ -13,8 +13,8 @@ namespace TaskingoAPI.Dto
             CreateMap<Database.Entity.User, UserDto>().ReverseMap();
             CreateMap<Database.Entity.WorkTask, WorkTaskCreatedDto>().ReverseMap();
             CreateMap<Database.Entity.WorkTask, WorkTaskDto>()
-                .ForMember(x=> x.WhoCreated, z => z.MapFrom(c =>c.WhoCreated))
-                .ForMember(x=> x.AssignedUser, z => z.MapFrom(c =>c.AssignedUser))
+                .ForMember(x => x.WhoCreated, z => z.MapFrom(c => c.WhoCreated))
+                .ForMember(x => x.AssignedUser, z => z.MapFrom(c => c.AssignedUser))
                 .ReverseMap();
         }
     }

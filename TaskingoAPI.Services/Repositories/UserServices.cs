@@ -6,13 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using TaskingoAPI.Database;
 using TaskingoAPI.Database.Entity;
-using TaskingoAPI.Dto;
 using TaskingoAPI.Dto.User;
 using TaskingoAPI.Exceptions;
 using TaskingoAPI.Services.Authentication;
@@ -51,7 +48,7 @@ namespace TaskingoAPI.Services.Repositories
             var user = _mapper.Map<User>(userDto);
             if (string.IsNullOrEmpty(user.PasswordHashed)) user.PasswordHashed = NewPassword();
             user.Role = GetDefaultRole();
-            user.ActualStatus = "Free";
+            user.ActualStatus = "Offline";
             user.IsActive = true;
             var hashedPassword = GetPassword(user, user.PasswordHashed);
             user.PasswordHashed = hashedPassword;
@@ -59,7 +56,6 @@ namespace TaskingoAPI.Services.Repositories
             _taskingoDbContext.SaveChanges();
             return user.Id;
         }
-
         public string GetPassword(User user, string password)
         {
             return _passwordHasher.HashPassword(user, password);
@@ -93,6 +89,12 @@ namespace TaskingoAPI.Services.Repositories
             var user = GetUserById(id);
             var userDto = _mapper.Map<UserDto>(user);
             return userDto;
+        }
+
+        public UserDto GetMyInfo()
+        {
+            var user = GetUserDtoBy(_userContextServices.GetUserId());
+            return user;
         }
 
         public string LoginUser(UserLoginDto userLoginDto)
@@ -134,7 +136,7 @@ namespace TaskingoAPI.Services.Repositories
 
         public void ForgotPassword(string email)
         {
-             var user = GetUserByMail(email);
+            var user = GetUserByMail(email);
             _mailServices.ForgotPassword(email, user);
         }
 

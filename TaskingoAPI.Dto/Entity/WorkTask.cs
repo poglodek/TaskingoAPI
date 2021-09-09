@@ -13,7 +13,7 @@ namespace TaskingoAPI.Database.Entity
         public DateTime CreatedTime { get; set; }
         public DateTime DeadLine { get; set; }
         public virtual User WhoCreated { get; set; }
-        public virtual User AssignedUser  { get; set; }
+        public virtual User AssignedUser { get; set; }
         public bool IsAssigned { get; set; }
     }
 }

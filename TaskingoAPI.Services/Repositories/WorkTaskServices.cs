@@ -1,14 +1,10 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using TaskingoAPI.Database;
 using TaskingoAPI.Database.Entity;
-using TaskingoAPI.Dto;
-using TaskingoAPI.Dto.User;
 using TaskingoAPI.Dto.WorkTask;
 using TaskingoAPI.Exceptions;
 using TaskingoAPI.Services.IRepositories;
@@ -78,6 +74,18 @@ namespace TaskingoAPI.Services.Repositories
             var task = GetTaskById(id);
             var taskDto = _mapper.Map<WorkTaskDto>(task);
             return taskDto;
+        }
+
+        public void UpdateWorkTask(WorkTaskUpdateDto workTaskUpdateDto)
+        {
+            var task = GetTaskById(workTaskUpdateDto.Id);
+            task.Priority = workTaskUpdateDto.Priority;
+            task.Status = workTaskUpdateDto.Status;
+            task.Title = workTaskUpdateDto.Title;
+            task.Comment = workTaskUpdateDto.Comment;
+            task.Description = workTaskUpdateDto.Description;
+            task.DeadLine = workTaskUpdateDto.DeadLine;
+            _taskingoDbContext.SaveChanges();
         }
 
         private WorkTask GetTaskById(int id)

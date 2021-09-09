@@ -17,5 +17,6 @@ namespace TaskingoAPI.Services.IRepositories
         public User GetUserById(int id);
         void DeActiveUserById(int id);
         UserDto GetUserDtoBy(int id);
+        UserDto GetMyInfo();
     }
 }
