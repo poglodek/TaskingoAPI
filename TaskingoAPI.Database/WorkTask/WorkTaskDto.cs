@@ -18,6 +18,7 @@ namespace TaskingoAPI.Dto.WorkTask
         public DateTime CreatedTime { get; set; }
         public DateTime DeadLine { get; set; }
         public UserDto WhoCreated { get; set; }
+        public UserDto AssignedUser { get; set; }
         public bool IsAssigned { get; set; }
     }
 }

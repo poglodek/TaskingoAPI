@@ -15,6 +15,7 @@ namespace TaskingoAPI.Database.Entity
         public string Address { get; set; }
         public virtual Role Role { get; set; }
         public virtual List<WorkTask> WorkTasks { get; set; }
+        public virtual List<WorkTask> WorkTasksAssigned { get; set; }
         public virtual List<WorkTime> WorkTimes { get; set; }
     }
 }

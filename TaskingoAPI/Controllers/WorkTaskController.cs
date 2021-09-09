@@ -21,6 +21,12 @@ namespace TaskingoAPI.Controllers
             var tasks = _workTaskServices.GetTaskByMonth(month, year);
             return Ok(tasks);
         }
+        [HttpPost("/CompleteWorkTask")]
+        public ActionResult CompleteWorkTask([FromBody]WorkTaskCompletedDto workTaskCompletedDto)
+        {
+            //var id = _workTaskServices.CreateNewTask(workTaskCreatedDto);
+            return Ok();
+        }
         [HttpPost]
         public ActionResult<int> AddWorkTask([FromBody] WorkTaskCreatedDto workTaskCreatedDto)
         {
