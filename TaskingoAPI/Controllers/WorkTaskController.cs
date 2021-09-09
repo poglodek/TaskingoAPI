@@ -24,7 +24,7 @@ namespace TaskingoAPI.Controllers
         [HttpPost("/CompleteWorkTask")]
         public ActionResult CompleteWorkTask([FromBody]WorkTaskCompletedDto workTaskCompletedDto)
         {
-            //var id = _workTaskServices.CreateNewTask(workTaskCreatedDto);
+            _workTaskServices.CompleteWorkTask(workTaskCompletedDto);
             return Ok();
         }
         [HttpPost]
@@ -39,6 +39,11 @@ namespace TaskingoAPI.Controllers
             _workTaskServices.DeleteTaskById(id);
             return NoContent();
         }
-
+        [HttpGet("{id}")]
+        public ActionResult Get([FromRoute] int id)
+        {
+            var user = _workTaskServices.GetWorkTaskDto(id);
+            return Ok(user);
+        }
     }
 }

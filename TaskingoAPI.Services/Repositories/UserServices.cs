@@ -88,6 +88,13 @@ namespace TaskingoAPI.Services.Repositories
             _taskingoDbContext.SaveChanges();
         }
 
+        public UserDto GetUserDtoBy(int id)
+        {
+            var user = GetUserById(id);
+            var userDto = _mapper.Map<UserDto>(user);
+            return userDto;
+        }
+
         public string LoginUser(UserLoginDto userLoginDto)
         {
             var user = _taskingoDbContext

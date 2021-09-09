@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TaskingoAPI.Database;
 using TaskingoAPI.Database.Entity;
 using TaskingoAPI.Dto;
+using TaskingoAPI.Dto.User;
 using TaskingoAPI.Dto.WorkTask;
 using TaskingoAPI.Exceptions;
 using TaskingoAPI.Services.IRepositories;
@@ -64,10 +65,27 @@ namespace TaskingoAPI.Services.Repositories
 
         }
 
+        public void CompleteWorkTask(WorkTaskCompletedDto workTaskCompletedDto)
+        {
+            var task = GetTaskById(workTaskCompletedDto.Id);
+            task.Status = "Completed";
+            task.Comment = workTaskCompletedDto.Comment;
+            _taskingoDbContext.SaveChanges();
+        }
+
+        public WorkTaskDto GetWorkTaskDto(int id)
+        {
+            var task = GetTaskById(id);
+            var taskDto = _mapper.Map<WorkTaskDto>(task);
+            return taskDto;
+        }
+
         private WorkTask GetTaskById(int id)
         {
             var task = _taskingoDbContext
                 .WorkTasks
+                .Include(x => x.AssignedUser)
+                .Include(x => x.WhoCreated)
                 .FirstOrDefault(x => x.Id == id);
             if (task is null) throw new NotFound("Task not found.");
             return task;
