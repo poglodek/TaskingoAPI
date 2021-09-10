@@ -63,5 +63,12 @@ namespace TaskingoAPI.Controllers
             var user = _userServices.GetUserDtoBy(id);
             return Ok(user);
         }
+
+        [HttpPatch]
+        public ActionResult Update(UserUpdateDto userUpdateDto)
+        {
+            _userServices.UpdateUser(userUpdateDto);
+            return Ok();
+        }
     }
 }

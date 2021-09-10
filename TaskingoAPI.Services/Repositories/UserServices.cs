@@ -97,6 +97,17 @@ namespace TaskingoAPI.Services.Repositories
             return user;
         }
 
+        public void UpdateUser(UserUpdateDto userUpdateDto)
+        {
+            var user = GetUserById(userUpdateDto.Id);
+            user.Address = userUpdateDto.Address;
+            user.FirstName = userUpdateDto.FirstName;
+            user.LastName = userUpdateDto.LastName;
+            user.Phone = userUpdateDto.Phone;
+            user.Email = userUpdateDto.Email;
+            _taskingoDbContext.SaveChanges();
+        }
+
         public string LoginUser(UserLoginDto userLoginDto)
         {
             var user = _taskingoDbContext

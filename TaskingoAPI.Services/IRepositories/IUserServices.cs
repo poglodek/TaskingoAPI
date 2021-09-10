@@ -18,5 +18,6 @@ namespace TaskingoAPI.Services.IRepositories
         void DeActiveUserById(int id);
         UserDto GetUserDtoBy(int id);
         UserDto GetMyInfo();
+        void UpdateUser(UserUpdateDto userUpdateDto);
     }
 }
