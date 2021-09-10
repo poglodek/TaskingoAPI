@@ -10,10 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="WorkTime\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TaskingoAPI.Dto\TaskingoAPI.Database.csproj" />
   </ItemGroup>
 

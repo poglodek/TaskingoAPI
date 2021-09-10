@@ -60,6 +60,7 @@ namespace TaskingoAPI
             services.AddScoped<IMailServices, MailServices>();
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IWorkTaskServices, WorkTaskServices>();
+            services.AddScoped<IWorkTimeServices, WorkTimeServices>();
             services.AddScoped<IUserContextServices, UserContextServices>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddAutoMapper(typeof(TaskingoMapper).Assembly);

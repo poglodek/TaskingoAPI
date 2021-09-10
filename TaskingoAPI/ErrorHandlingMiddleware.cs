@@ -39,6 +39,12 @@ namespace TaskingoAPI
                 context.Response.StatusCode = 409;
                 await context.Response.WriteAsync(ex.Message);
             }
+            catch (ConflictExceptions ex)
+            {
+                _logger.LogError(ex.Message, ex);
+                context.Response.StatusCode = 409;
+                await context.Response.WriteAsync(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex);
