@@ -51,11 +51,11 @@ namespace TaskingoAPI.Controllers
             var user = _userServices.GetMyInfo();
             return Ok(user);
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult DeActiveUser([FromRoute] int id)
         {
             _userServices.DeActiveUserById(id);
-            return Ok();
+            return NoContent();
         }
         [HttpGet("{id}")]
         public ActionResult Get([FromRoute] int id)

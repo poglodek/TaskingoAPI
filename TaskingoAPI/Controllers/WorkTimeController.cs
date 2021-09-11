@@ -21,7 +21,7 @@ namespace TaskingoAPI.Controllers
         }
 
         [HttpGet("{userId}")]
-        public ActionResult<List<WorkTimeDto>> GetWorkTime([FromQuery] int userId)
+        public ActionResult<List<WorkTimeDto>> GetWorkTime([FromRoute] int userId)
         {
             var workTimes = _workTimeServices.GetWorkTimeDtoByUserId(userId);
             return Ok(workTimes);
