@@ -24,6 +24,7 @@ namespace TaskingoAPI.Services.Repositories
         private readonly IMailServices _mailServices;
         private readonly AuthenticationSettings _authenticationSettings;
         private readonly IUserContextServices _userContextServices;
+        private readonly IPasswordServices _passwordServices;
         private readonly IMapper _mapper;
 
         public UserServices(TaskingoDbContext taskingoDbContext,
@@ -31,6 +32,7 @@ namespace TaskingoAPI.Services.Repositories
             IMailServices mailServices,
             AuthenticationSettings authenticationSettings,
             IUserContextServices userContextServices,
+            IPasswordServices passwordServices,
            IMapper mapper)
         {
             _taskingoDbContext = taskingoDbContext;
@@ -38,6 +40,7 @@ namespace TaskingoAPI.Services.Repositories
             _mailServices = mailServices;
             _authenticationSettings = authenticationSettings;
             _userContextServices = userContextServices;
+            _passwordServices = passwordServices;
             _mapper = mapper;
         }
 
@@ -46,21 +49,17 @@ namespace TaskingoAPI.Services.Repositories
         public int RegisterUser(UserCreatedDto userDto)
         {
             var user = _mapper.Map<User>(userDto);
-            if (string.IsNullOrEmpty(user.PasswordHashed)) user.PasswordHashed = NewPassword();
+            if (string.IsNullOrEmpty(user.PasswordHashed)) user.PasswordHashed = _passwordServices.NewPassword();
             user.Role = GetDefaultRole();
             user.ActualStatus = "Offline";
             user.IsActive = true;
-            var hashedPassword = GetPassword(user, user.PasswordHashed);
+            var hashedPassword = _passwordServices.GetPassword(user, user.PasswordHashed);
             user.PasswordHashed = hashedPassword;
             _taskingoDbContext.Users.Add(user);
             _taskingoDbContext.SaveChanges();
             return user.Id;
         }
-        public string GetPassword(User user, string password)
-        {
-            return _passwordHasher.HashPassword(user, password);
-        }
-
+        
         public string GetMyName()
         {
             var user = _userContextServices.GetUser;
@@ -151,19 +150,7 @@ namespace TaskingoAPI.Services.Repositories
             _mailServices.ForgotPassword(email, user);
         }
 
-        public string NewPassword()
-        {
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            var stringChars = new char[12];
-            var random = new Random();
-
-            for (int i = 0; i < stringChars.Length; i++)
-            {
-                stringChars[i] = chars[random.Next(chars.Length)];
-            }
-
-            return new String(stringChars);
-        }
+        
 
         public User GetUserByMail(string mail)
         {

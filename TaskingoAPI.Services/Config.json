@@ -1,0 +1,6 @@
+{
+	"ServiceMail": "YourEmail@email.com",
+	"ServiceMailPassword": "Pa$$w0rd1234.",
+	"ServiceMailServer": "smtp.poczta.onet.pl",
+	"ServiceMailServerPort": 465
+}

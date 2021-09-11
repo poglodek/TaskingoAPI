@@ -16,6 +16,7 @@ using TaskingoAPI.Database.Entity;
 using TaskingoAPI.Dto;
 using TaskingoAPI.Dto.User;
 using TaskingoAPI.Dto.WorkTask;
+using TaskingoAPI.Services;
 using TaskingoAPI.Services.Authentication;
 using TaskingoAPI.Services.IRepositories;
 using TaskingoAPI.Services.Repositories;
@@ -54,6 +55,7 @@ namespace TaskingoAPI
                     )
                 };
             });
+            services.AddTransient<ConfigReader>();
             services.AddControllers().AddFluentValidation();
             services.AddScoped<IValidator<UserCreatedDto>, UserCreatedDtoValidation>();
             services.AddScoped<IValidator<WorkTaskCreatedDto>, WorkTaskCreatedDtoValidation>();
@@ -62,6 +64,7 @@ namespace TaskingoAPI
             services.AddScoped<IWorkTaskServices, WorkTaskServices>();
             services.AddScoped<IWorkTimeServices, WorkTimeServices>();
             services.AddScoped<IUserContextServices, UserContextServices>();
+            services.AddScoped<IPasswordServices, PasswordServices>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddAutoMapper(typeof(TaskingoMapper).Assembly);
             services.AddSingleton(authSettings);
