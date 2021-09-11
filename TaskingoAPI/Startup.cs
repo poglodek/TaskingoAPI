@@ -55,7 +55,6 @@ namespace TaskingoAPI
                     )
                 };
             });
-            services.AddTransient<ConfigReader>();
             services.AddControllers().AddFluentValidation();
             services.AddScoped<IValidator<UserCreatedDto>, UserCreatedDtoValidation>();
             services.AddScoped<IValidator<WorkTaskCreatedDto>, WorkTaskCreatedDtoValidation>();
