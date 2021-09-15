@@ -10,9 +10,9 @@ namespace TaskingoAPI.Dto
     {
         public TaskingoMapper()
         {
-            CreateMap<Database.Entity.User, UserCreatedDto>()
-                .ForMember(x=> x.Role, z=>z.MapFrom(c =>c.Role.RoleName))
-                .ReverseMap();
+            CreateMap<UserCreatedDto, Database.Entity.User>().ForMember(x => x.Role, z=> z.Ignore());
+          //  CreateMap<Database.Entity.User, UserCreatedDto>()
+          //      .ForMember(x => x.Role, z => z.MapFrom(c => c.Role.RoleName));
             CreateMap<Database.Entity.User, UserLoginDto>()
                 .ReverseMap();
             CreateMap<Database.Entity.User, UserDto>()
