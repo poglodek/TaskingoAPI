@@ -63,6 +63,8 @@ namespace TaskingoAPI.Services.Repositories
 
         public void CompleteWorkTask(WorkTaskCompletedDto workTaskCompletedDto)
         {
+            var user = _userServices.GetUserById(_userContextServices.GetUserId());
+            user.ActualStatus = "Online";
             var task = GetTaskById(workTaskCompletedDto.Id);
             task.Status = "Completed";
             task.Comment = workTaskCompletedDto.Comment;
