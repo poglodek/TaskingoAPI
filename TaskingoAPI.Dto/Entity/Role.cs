@@ -10,5 +10,6 @@ namespace TaskingoAPI.Database.Entity
         public int Id { get; set; }
         public string RoleName { get; set; }
         public List<User> Users { get; set; }
+        public virtual List<WorkTask> WorkGroup { get; set; }
     }
 }

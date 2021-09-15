@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using TaskingoAPI.Database;
 using TaskingoAPI.Database.Entity;
 using TaskingoAPI.Exceptions;
+using TaskingoAPI.Services.IRepositories;
 
 namespace TaskingoAPI.Services.Repositories
 {
-    public class RoleServices
+    public class RoleServices : IRoleServices
     {
         private readonly TaskingoDbContext _taskingoDbContext;
 
