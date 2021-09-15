@@ -15,17 +15,20 @@ namespace TaskingoAPI.Services.Repositories
     {
         private readonly TaskingoDbContext _taskingoDbContext;
         private readonly IUserServices _userServices;
+        private readonly IRoleServices _roleServices;
         private readonly IUserContextServices _userContextServices;
         private readonly IMapper _mapper;
 
         public WorkTaskServices(TaskingoDbContext taskingoDbContext,
             IUserServices userServices,
+            IRoleServices roleServices,
             IUserContextServices userContextServices,
             IMapper mapper
             )
         {
             _taskingoDbContext = taskingoDbContext;
             _userServices = userServices;
+            _roleServices = roleServices;
             _userContextServices = userContextServices;
             _mapper = mapper;
         }
@@ -35,6 +38,7 @@ namespace TaskingoAPI.Services.Repositories
             var workTask = _mapper.Map<WorkTask>(workTaskCreatedDto);
             workTask.CreatedTime = DateTime.Now;
             workTask.IsAssigned = false;
+            workTask.WorkGroup = _roleServices.GetRoleByName(workTaskCreatedDto.WorkGroup);
             workTask.WhoCreated = _userServices.GetUserById(_userContextServices.GetUserId());
             _taskingoDbContext.WorkTasks.Add(workTask);
             _taskingoDbContext.SaveChanges();
@@ -53,6 +57,7 @@ namespace TaskingoAPI.Services.Repositories
             var tasks = _taskingoDbContext
                 .WorkTasks
                 .Include(x => x.WhoCreated)
+                .Include(x =>x.WorkGroup)
                 .Where(x => x.DeadLine.Month.Equals(month) && x.DeadLine.Year.Equals(year))
                 .ToList();
 
@@ -95,6 +100,7 @@ namespace TaskingoAPI.Services.Repositories
             var task = _taskingoDbContext
                 .WorkTasks
                 .Include(x => x.AssignedUser)
+                .Include(x => x.WorkGroup)
                 .Include(x => x.WhoCreated)
                 .FirstOrDefault(x => x.Id == id);
             if (task is null) throw new NotFound("Task not found.");

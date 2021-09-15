@@ -22,6 +22,7 @@ namespace TaskingoAPI.Services.Repositories
         private readonly TaskingoDbContext _taskingoDbContext;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IMailServices _mailServices;
+        private readonly IRoleServices _roleServices;
         private readonly AuthenticationSettings _authenticationSettings;
         private readonly IUserContextServices _userContextServices;
         private readonly IPasswordServices _passwordServices;
@@ -30,6 +31,7 @@ namespace TaskingoAPI.Services.Repositories
         public UserServices(TaskingoDbContext taskingoDbContext,
             IPasswordHasher<User> passwordHasher,
             IMailServices mailServices,
+            IRoleServices roleServices,
             AuthenticationSettings authenticationSettings,
             IUserContextServices userContextServices,
             IPasswordServices passwordServices,
@@ -38,6 +40,7 @@ namespace TaskingoAPI.Services.Repositories
             _taskingoDbContext = taskingoDbContext;
             _passwordHasher = passwordHasher;
             _mailServices = mailServices;
+            _roleServices = roleServices;
             _authenticationSettings = authenticationSettings;
             _userContextServices = userContextServices;
             _passwordServices = passwordServices;
@@ -50,7 +53,7 @@ namespace TaskingoAPI.Services.Repositories
         {
             var user = _mapper.Map<User>(userDto);
             if (string.IsNullOrEmpty(user.PasswordHashed)) user.PasswordHashed = _passwordServices.NewPassword();
-            user.Role = GetDefaultRole();
+            user.Role = _roleServices.GetRoleByName(userDto.Role);
             user.ActualStatus = "Offline";
             user.IsActive = true;
             var hashedPassword = _passwordServices.GetPassword(user, user.PasswordHashed);
@@ -71,6 +74,7 @@ namespace TaskingoAPI.Services.Repositories
         {
             var user = _taskingoDbContext
                 .Users
+                .Include(x => x.Role)
                 .FirstOrDefault(x => x.Id == id);
             if (user is null) throw new NotFound("User not found");
             return user;
@@ -104,6 +108,7 @@ namespace TaskingoAPI.Services.Repositories
             user.LastName = userUpdateDto.LastName;
             user.Phone = userUpdateDto.Phone;
             user.Email = userUpdateDto.Email;
+            user.Role = _roleServices.GetRoleByName(userUpdateDto.Role);
             _taskingoDbContext.SaveChanges();
         }
 
@@ -138,6 +143,7 @@ namespace TaskingoAPI.Services.Repositories
         {
             var users = _taskingoDbContext
                 .Users
+                .Include(x => x.Role)
                 .Where(x => x.IsActive == true)
                 .ToList();
             var usersDto = _mapper.Map<List<UserDto>>(users);
@@ -161,10 +167,7 @@ namespace TaskingoAPI.Services.Repositories
             if (user is null) throw new NotFound("User not found");
             return user;
         }
-        private Role GetDefaultRole()
-        {
-            return _taskingoDbContext.Roles.First();
-        }
+        
         private List<Claim> GetClaims(User user)
         {
             var claims = new List<Claim>

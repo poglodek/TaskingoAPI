@@ -13,6 +13,7 @@ namespace TaskingoAPI.Dto.WorkTask
         public string Comment { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime DeadLine { get; set; }
+        public string WorkGroup { get; set; }
         public UserDto WhoCreated { get; set; }
         public UserDto AssignedUser { get; set; }
         public bool IsAssigned { get; set; }

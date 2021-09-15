@@ -20,6 +20,7 @@ using TaskingoAPI.Services;
 using TaskingoAPI.Services.Authentication;
 using TaskingoAPI.Services.IRepositories;
 using TaskingoAPI.Services.Repositories;
+using TaskingoAPI.Services.Seeders;
 
 namespace TaskingoAPI
 {
@@ -60,6 +61,7 @@ namespace TaskingoAPI
             services.AddScoped<IValidator<WorkTaskCreatedDto>, WorkTaskCreatedDtoValidation>();
             services.AddScoped<IMailServices, MailServices>();
             services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<IRoleServices, RoleServices>();
             services.AddScoped<IWorkTaskServices, WorkTaskServices>();
             services.AddScoped<IWorkTimeServices, WorkTimeServices>();
             services.AddScoped<IUserContextServices, UserContextServices>();
@@ -67,8 +69,10 @@ namespace TaskingoAPI
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddAutoMapper(typeof(TaskingoMapper).Assembly);
             services.AddSingleton(authSettings);
+            services.AddScoped<RoleSeeder>();
             services.AddTransient<ErrorHandlingMiddleware>();
-            services.AddDbContext<TaskingoDbContext>(options => options.UseSqlServer("Server=.;Database=TaskingoAPI;Trusted_Connection=True;"));
+            services.AddDbContext<TaskingoDbContext>(options => 
+                options.UseSqlServer("Server=.;Database=TaskingoAPI;Trusted_Connection=True;"));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -77,7 +81,7 @@ namespace TaskingoAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider, RoleSeeder roleSeeder)
         {
             if (env.IsDevelopment())
             {
@@ -93,7 +97,7 @@ namespace TaskingoAPI
             app.UseAuthorization();
             var database = serviceProvider.GetService<TaskingoDbContext>();
             database.Database.Migrate();
-
+            roleSeeder.Seed();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

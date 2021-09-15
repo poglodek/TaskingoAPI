@@ -32,6 +32,19 @@ namespace TaskingoAPI.Services.Repositories
             _taskingoDbContext.SaveChanges();
             return newRole.Id;
         }
+        public Role GetDefaultRole()
+        {
+            return _taskingoDbContext.Roles.First();
+        }
+
+        public Role GetRoleByName(string roleName)
+        {
+            var role = _taskingoDbContext
+                .Roles
+                .FirstOrDefault(x => x.RoleName.ToUpper().Equals(roleName.ToUpper()));
+            if (role is null) throw new NotFound("Role not found."); 
+            return role;
+        }
 
     }
 }
