@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using TaskingoAPI.Dto.Role;
 using TaskingoAPI.Dto.User;
 using TaskingoAPI.Dto.WorkTask;
 using TaskingoAPI.Dto.WorkTime;
@@ -26,6 +27,7 @@ namespace TaskingoAPI.Dto
                 .ForMember(x => x.AssignedUser, z => z.MapFrom(c => c.AssignedUser))
                 .ReverseMap();
             CreateMap<Database.Entity.WorkTime, WorkTimeDto>().ReverseMap();
+            CreateMap<Database.Entity.Role, RoleDto>().ReverseMap();
         }
     }
 }

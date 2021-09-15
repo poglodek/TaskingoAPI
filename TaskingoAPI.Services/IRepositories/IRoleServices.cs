@@ -1,4 +1,6 @@
-﻿using TaskingoAPI.Database.Entity;
+﻿using System.Collections.Generic;
+using TaskingoAPI.Database.Entity;
+using TaskingoAPI.Dto.Role;
 
 namespace TaskingoAPI.Services.IRepositories
 {
@@ -7,5 +9,6 @@ namespace TaskingoAPI.Services.IRepositories
         int AddNewRole(string roleName);
         public Role GetDefaultRole();
         public Role GetRoleByName(string roleName);
+        public List<RoleDto> GetAllRoles();
     }
 }

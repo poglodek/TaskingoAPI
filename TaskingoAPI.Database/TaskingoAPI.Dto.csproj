@@ -13,8 +13,4 @@
     <ProjectReference Include="..\TaskingoAPI.Dto\TaskingoAPI.Database.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Role\" />
-  </ItemGroup>
-
 </Project>
