@@ -26,5 +26,11 @@ namespace TaskingoAPI.Controllers
             var messages = _chatServices.GetChat(userId, count);
             return Ok(messages);
         }
+        [HttpGet("LastUsers")]
+        public ActionResult<List<UserDto>> GetLastChatting()
+        {
+            var users = _chatServices.GetLastChatting();
+            return Ok(users);
+        }
     }
 }

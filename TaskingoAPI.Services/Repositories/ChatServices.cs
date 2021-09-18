@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TaskingoAPI.Database;
 using TaskingoAPI.Database.Entity;
 using TaskingoAPI.Dto.Message;
+using TaskingoAPI.Dto.User;
 using TaskingoAPI.Services.IRepositories;
 
 namespace TaskingoAPI.Services.Repositories
@@ -76,6 +77,21 @@ namespace TaskingoAPI.Services.Repositories
                 .Take(10);
             var messagesDto = _mapper.Map<IEnumerable<MessageDto>>(messages);
             return messagesDto.ToList();
+        }
+
+        public List<UserDto> GetLastChatting()
+        {
+            var user = _userServices.GetUserById(_userContextServices.GetUserId());
+            var messages = _taskingoDbContext
+                .Messages
+                .Include(x => x.WhoGotMessage)
+                .Include(x => x.WhoSentMessage)
+                .Where(x => x.WhoGotMessage.Equals(user) || x.WhoSentMessage.Equals(user))
+                .Distinct();
+            var users = messages.Select(x => x.WhoGotMessage);
+            users.ToList().AddRange(messages.Select(x => x.WhoSentMessage));
+            var usersDto = _mapper.Map<List<UserDto>>(users.Distinct());
+            return usersDto;
         }
     }
 }
