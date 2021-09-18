@@ -54,7 +54,6 @@ namespace TaskingoAPI.Services.Repositories
             var user = _mapper.Map<User>(userDto);
             if (string.IsNullOrEmpty(user.PasswordHashed)) user.PasswordHashed = _passwordServices.NewPassword();
             user.Role = _roleServices.GetRoleByName(userDto.Role);
-            user.ActualStatus = "Offline";
             user.IsActive = true;
             var hashedPassword = _passwordServices.GetPassword(user, user.PasswordHashed);
             user.PasswordHashed = hashedPassword;
@@ -94,11 +93,7 @@ namespace TaskingoAPI.Services.Repositories
             return userDto;
         }
 
-        public UserDto GetMyInfo()
-        {
-            var user = GetUserDtoBy(_userContextServices.GetUserId());
-            return user;
-        }
+        public UserDto GetMyInfo() => GetUserDtoBy(_userContextServices.GetUserId());
 
         public void UpdateUser(UserUpdateDto userUpdateDto)
         {
@@ -111,6 +106,19 @@ namespace TaskingoAPI.Services.Repositories
             user.Role = _roleServices.GetRoleByName(userUpdateDto.Role);
             _taskingoDbContext.SaveChanges();
         }
+
+        public User GetUserByChatUserId(string chatUserId)
+        {
+            var user = _taskingoDbContext
+                .Users
+                .FirstOrDefault(x => x.UserIdChat.Equals(chatUserId));
+            if (user is null) throw new NotFound("User not found.");
+            return user;
+        }
+
+        public string GetUserChatIdByUserId(int userId) => GetUserById(id: userId).UserIdChat;
+
+        public bool IsUserOnline(int userId) => GetUserById(userId).IsOnline;
 
         public string LoginUser(UserLoginDto userLoginDto)
         {

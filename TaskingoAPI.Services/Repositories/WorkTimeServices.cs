@@ -50,7 +50,6 @@ namespace TaskingoAPI.Services.Repositories
             workTime.WorkTimeStart = DateTime.Now;
             workTime.WorkTimeEnd = null;
             workTime.BreakTimeInMinutes = 0;
-            user.ActualStatus = "Online";
             _taskingoDbContext.WorkTimes.Add(workTime);
             _taskingoDbContext.SaveChanges();
         }
@@ -60,7 +59,6 @@ namespace TaskingoAPI.Services.Repositories
             if (!IsWorkTimeActive(user)) throw new ConflictExceptions("WorkTime is not started.");
             var workTime = GetLastActiveWorkTime(user);
             workTime.WorkTimeEnd = DateTime.Now;
-            user.ActualStatus = "Offline";
             _taskingoDbContext.SaveChanges();
         }
 

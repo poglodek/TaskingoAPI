@@ -13,6 +13,7 @@ namespace TaskingoAPI.Database
         public DbSet<WorkTask> WorkTasks { get; set; }
         public DbSet<WorkTime> WorkTimes { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +24,12 @@ namespace TaskingoAPI.Database
             modelBuilder.Entity<WorkTask>()
                 .HasOne(x => x.WhoCreated)
                 .WithMany(x => x.WorkTasks);
+            modelBuilder.Entity<Message>()
+                .HasOne(x => x.WhoSentMessage)
+                .WithMany(x => x.Sender);
+            modelBuilder.Entity<Message>()
+                .HasOne(x => x.WhoGotMessage)
+                .WithMany(x => x.Recipient);
         }
     }
 }

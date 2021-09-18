@@ -11,16 +11,13 @@ namespace TaskingoAPI.Dto
         public TaskingoMapper()
         {
             CreateMap<UserCreatedDto, Database.Entity.User>().ForMember(x => x.Role, z=> z.Ignore());
-          //  CreateMap<Database.Entity.User, UserCreatedDto>()
-          //      .ForMember(x => x.Role, z => z.MapFrom(c => c.Role.RoleName));
             CreateMap<Database.Entity.User, UserLoginDto>()
                 .ReverseMap();
             CreateMap<Database.Entity.User, UserDto>()
                 .ForMember(x => x.Role, z => z.MapFrom(c => c.Role.RoleName))
                 .ReverseMap();
-            CreateMap<Database.Entity.WorkTask, WorkTaskCreatedDto>()
-                .ForMember(x => x.WorkGroup, z => z.MapFrom(c => c.WorkGroup.RoleName))
-                .ReverseMap();
+            CreateMap<WorkTaskCreatedDto, Database.Entity.WorkTask>()
+                .ForMember(x => x.WorkGroup, z => z.Ignore());
             CreateMap<Database.Entity.WorkTask, WorkTaskDto>()
                 .ForMember(x => x.WorkGroup, z => z.MapFrom(c => c.WorkGroup.RoleName))
                 .ForMember(x => x.WhoCreated, z => z.MapFrom(c => c.WhoCreated))

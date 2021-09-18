@@ -16,6 +16,7 @@ using TaskingoAPI.Database.Entity;
 using TaskingoAPI.Dto;
 using TaskingoAPI.Dto.User;
 using TaskingoAPI.Dto.WorkTask;
+using TaskingoAPI.Hubs;
 using TaskingoAPI.Services;
 using TaskingoAPI.Services.Authentication;
 using TaskingoAPI.Services.IRepositories;
@@ -56,6 +57,7 @@ namespace TaskingoAPI
                     )
                 };
             });
+            services.AddSignalR();
             services.AddControllers().AddFluentValidation();
             services.AddScoped<IValidator<UserCreatedDto>, UserCreatedDtoValidation>();
             services.AddScoped<IValidator<WorkTaskCreatedDto>, WorkTaskCreatedDtoValidation>();
@@ -64,6 +66,7 @@ namespace TaskingoAPI
             services.AddScoped<IRoleServices, RoleServices>();
             services.AddScoped<IWorkTaskServices, WorkTaskServices>();
             services.AddScoped<IWorkTimeServices, WorkTimeServices>();
+            services.AddScoped<IChatServices, ChatServices>();
             services.AddScoped<IUserContextServices, UserContextServices>();
             services.AddScoped<IPasswordServices, PasswordServices>();
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
@@ -101,6 +104,7 @@ namespace TaskingoAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }
