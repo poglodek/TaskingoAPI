@@ -20,5 +20,6 @@ namespace TaskingoAPI.Services.IRepositories
         User GetUserByChatUserId(string chatUserId);
         string GetUserChatIdByUserId(int userId);
         bool IsUserOnline(int userId);
+        int GetMyId();
     }
 }

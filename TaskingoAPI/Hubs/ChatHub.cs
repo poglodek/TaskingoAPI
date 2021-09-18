@@ -20,22 +20,21 @@ namespace TaskingoAPI.Hubs
             _chatServices = chatServices;
             _userServices = userServices;
         }
-        public override Task OnConnectedAsync()
-        {
-            Console.WriteLine("Conneted via hub:"+ Context.ConnectionId);
-           // _chatServices.SetUserIdChat(Context.ConnectionId);
-            return base.OnConnectedAsync();
-        }
         public override Task OnDisconnectedAsync(Exception exception)
         {
             _chatServices.Disconnect(Context.ConnectionId);
             return base.OnDisconnectedAsync(exception);
         }
-        public async Task SendMessage(string message, int userId)
+        public async Task SendMessage(string message, int recipientId)
         {
-            _chatServices.SendMessage(message, userId);
-            if (_userServices.IsUserOnline(userId))
-                await Clients.Client(_userServices.GetUserChatIdByUserId(userId)).SendAsync("ReceiveMessage", $"\n{message}");
+            var sender = _userServices.GetUserByChatUserId(Context.ConnectionId);
+            _chatServices.SendMessage(message, recipientId);
+            if (_userServices.IsUserOnline(recipientId))
+                await Clients.Client(_userServices.GetUserChatIdByUserId(recipientId)).SendAsync("ReceiveMessage", $"{sender.FirstName + sender.LastName}", sender.Id, message);
+        }
+        public async Task GetMyId(int userId)
+        {
+            _chatServices.SetUserIdChat(Context.ConnectionId, userId);
         }
     }
     

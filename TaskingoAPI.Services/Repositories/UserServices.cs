@@ -119,6 +119,7 @@ namespace TaskingoAPI.Services.Repositories
         public string GetUserChatIdByUserId(int userId) => GetUserById(id: userId).UserIdChat;
 
         public bool IsUserOnline(int userId) => GetUserById(userId).IsOnline;
+        public int GetMyId() => _userContextServices.GetUserId();
 
         public string LoginUser(UserLoginDto userLoginDto)
         {

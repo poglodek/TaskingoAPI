@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using TaskingoAPI.Dto.Message;
 using TaskingoAPI.Dto.Role;
 using TaskingoAPI.Dto.User;
 using TaskingoAPI.Dto.WorkTask;
@@ -25,6 +26,8 @@ namespace TaskingoAPI.Dto
                 .ReverseMap();
             CreateMap<Database.Entity.WorkTime, WorkTimeDto>().ReverseMap();
             CreateMap<Database.Entity.Role, RoleDto>().ReverseMap();
+            CreateMap<Database.Entity.Message, MessageDto>()
+                .ForMember(x => x.Sender, z => z.MapFrom(c => c.WhoSentMessage.FirstName + c.WhoSentMessage.LastName));
         }
     }
 }

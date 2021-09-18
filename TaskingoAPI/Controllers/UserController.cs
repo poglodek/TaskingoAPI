@@ -45,6 +45,12 @@ namespace TaskingoAPI.Controllers
             var name = _userServices.GetMyName();
             return Ok(name);
         }
+        [HttpGet("GetMyId")]
+        public ActionResult<int> GetMyId()
+        {
+            var id = _userServices.GetMyId();
+            return Ok(id);
+        }
         [HttpGet("GetMe")]
         public ActionResult<string> GetMyInfo()
         {
