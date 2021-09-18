@@ -7,7 +7,7 @@ namespace TaskingoAPI.Services.IRepositories
     {
         void SetUserIdChat(string chatUserId,int userId);
         void Disconnect(string chatUserId);
-        void SendMessage(string message, int userId);
+        void SendMessage(string message, string userChatId, int userId);
         List<MessageDto> GetChat(int userId, int count);
     }
 }

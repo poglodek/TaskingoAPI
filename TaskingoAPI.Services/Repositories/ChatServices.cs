@@ -45,9 +45,9 @@ namespace TaskingoAPI.Services.Repositories
             _taskingoDbContext.SaveChanges();
         }
 
-        public void SendMessage(string message, int userId)
+        public void SendMessage(string message,string userChatId ,int userId)
         {
-            var sender = _userServices.GetUserById(_userContextServices.GetUserId());
+            var sender = _userServices.GetUserByChatUserId(userChatId);
             var recipient = _userServices.GetUserById(userId);
             var newMessage = new Message
             {
@@ -70,11 +70,12 @@ namespace TaskingoAPI.Services.Repositories
                 .Include(x => x.WhoGotMessage)
                 .Include(x => x.WhoSentMessage)
                 .Where(x => x.WhoSentMessage == sender && x.WhoGotMessage == recipient || x.WhoSentMessage == recipient && x.WhoGotMessage == sender)
-               // .Reverse()
-                .Take(count)
-                .ToList();
-            var messagesDto = _mapper.Map<List<MessageDto>>(messages);
-            return messagesDto;
+                .ToArray()
+                .Reverse()
+                .Skip(count)
+                .Take(10);
+            var messagesDto = _mapper.Map<IEnumerable<MessageDto>>(messages);
+            return messagesDto.ToList();
         }
     }
 }

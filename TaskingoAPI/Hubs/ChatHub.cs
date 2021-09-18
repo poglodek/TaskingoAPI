@@ -28,7 +28,7 @@ namespace TaskingoAPI.Hubs
         public async Task SendMessage(string message, int recipientId)
         {
             var sender = _userServices.GetUserByChatUserId(Context.ConnectionId);
-            _chatServices.SendMessage(message, recipientId);
+            _chatServices.SendMessage(message,Context.ConnectionId ,recipientId);
             if (_userServices.IsUserOnline(recipientId))
                 await Clients.Client(_userServices.GetUserChatIdByUserId(recipientId)).SendAsync("ReceiveMessage", $"{sender.FirstName + sender.LastName}", sender.Id, message);
         }
