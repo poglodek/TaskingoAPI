@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using TaskingoAPI.Model;
 using TaskingoAPI.Services.IRepositories;
 
 namespace TaskingoAPI.Hubs
@@ -30,7 +31,11 @@ namespace TaskingoAPI.Hubs
             var sender = _userServices.GetUserByChatUserId(Context.ConnectionId);
             _chatServices.SendMessage(message,Context.ConnectionId ,recipientId);
             if (_userServices.IsUserOnline(recipientId))
-                await Clients.Client(_userServices.GetUserChatIdByUserId(recipientId)).SendAsync("ReceiveMessage", $"{sender.FirstName + sender.LastName}", sender.Id, message);
+            {
+                var newMessage = new MessageModel($"{sender.FirstName} {sender.LastName}",message);
+                await Clients.Client(_userServices.GetUserChatIdByUserId(recipientId)).SendAsync("ReceiveMessage", newMessage);
+            }
+                
         }
         public async Task GetMyId(int userId)
         {
