@@ -8,7 +8,7 @@ namespace TaskingoAPI.Services.IRepositories
     {
         int RegisterUser(UserCreatedDto userDto);
         string LoginUser(UserLoginDto userLoginDto);
-        List<UserDto> GetAllUser();
+        List<UserDto> GetAllUserDto();
         User GetUserByMail(string mail);
         void ForgotPassword(string email);
         string GetMyName();
@@ -21,5 +21,6 @@ namespace TaskingoAPI.Services.IRepositories
         string GetUserChatIdByUserId(int userId);
         bool IsUserOnline(int userId);
         int GetMyId();
+        List<User> GetAllUser();
     }
 }

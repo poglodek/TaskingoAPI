@@ -148,7 +148,7 @@ namespace TaskingoAPI.Services.Repositories
             return tokenHandler.WriteToken(token);
         }
 
-        public List<UserDto> GetAllUser()
+        public List<UserDto> GetAllUserDto()
         {
             var users = _taskingoDbContext
                 .Users
@@ -157,6 +157,16 @@ namespace TaskingoAPI.Services.Repositories
                 .ToList();
             var usersDto = _mapper.Map<List<UserDto>>(users);
             return usersDto;
+        }
+        public List<User> GetAllUser()
+        {
+            var users = _taskingoDbContext
+                .Users
+                .Include(x => x.Role)
+                .Include(x =>x.WorkTasksAssigned)
+                .Where(x => x.IsActive == true)
+                .ToList();
+            return users;
         }
 
         public void ForgotPassword(string email)

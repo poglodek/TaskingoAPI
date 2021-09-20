@@ -18,7 +18,7 @@ namespace TaskingoAPI.Controllers
         [HttpGet("GetAll")]
         public ActionResult<List<UserDto>> GetAllUsers()
         {
-            var users = _userServices.GetAllUser();
+            var users = _userServices.GetAllUserDto();
             return Ok(users);
         }
         [HttpPost("Login")]

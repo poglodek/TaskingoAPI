@@ -63,6 +63,7 @@ namespace TaskingoAPI
             services.AddScoped<IValidator<WorkTaskCreatedDto>, WorkTaskCreatedDtoValidation>();
             services.AddScoped<IMailServices, MailServices>();
             services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<IAutoAssignServices, AutoAssignServices>();
             services.AddScoped<IRoleServices, RoleServices>();
             services.AddScoped<IWorkTaskServices, WorkTaskServices>();
             services.AddScoped<IWorkTimeServices, WorkTimeServices>();

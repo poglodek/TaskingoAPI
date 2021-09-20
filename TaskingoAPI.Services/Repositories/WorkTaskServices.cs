@@ -65,6 +65,16 @@ namespace TaskingoAPI.Services.Repositories
             return tasksDto;
 
         }
+        public List<WorkTask> GetTaskStatus(string status)
+        {
+            var tasks = _taskingoDbContext
+                .WorkTasks
+                .Where(x => x.Status.Equals(status))
+                .ToList();
+
+            return tasks;
+
+        }
 
         public void CompleteWorkTask(WorkTaskCompletedDto workTaskCompletedDto)
         {
@@ -72,10 +82,11 @@ namespace TaskingoAPI.Services.Repositories
             var task = GetTaskById(workTaskCompletedDto.Id);
             task.Status = "Completed";
             task.Comment = workTaskCompletedDto.Comment;
+            task.IsAssigned = false;
             _taskingoDbContext.SaveChanges();
         }
 
-        public WorkTaskDto GetWorkTaskDto(int id)
+        public WorkTaskDto GetWorkTaskDtoById(int id)
         {
             var task = GetTaskById(id);
             var taskDto = _mapper.Map<WorkTaskDto>(task);
@@ -91,10 +102,12 @@ namespace TaskingoAPI.Services.Repositories
             task.Comment = workTaskUpdateDto.Comment;
             task.Description = workTaskUpdateDto.Description;
             task.DeadLine = workTaskUpdateDto.DeadLine;
+            if (workTaskUpdateDto.Status.Equals("Canceled"))
+                task.IsAssigned = false;
             _taskingoDbContext.SaveChanges();
         }
 
-        private WorkTask GetTaskById(int id)
+        public WorkTask GetTaskById(int id)
         {
             var task = _taskingoDbContext
                 .WorkTasks
@@ -105,5 +118,6 @@ namespace TaskingoAPI.Services.Repositories
             if (task is null) throw new NotFound("Task not found.");
             return task;
         }
+
     }
 }

@@ -32,5 +32,6 @@ namespace TaskingoAPI.Controllers
             var users = _chatServices.GetLastChatting();
             return Ok(users);
         }
+        
     }
 }
