@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TaskingoAPI.Database;
+using TaskingoAPI.Database.Entity;
 using TaskingoAPI.Services.IRepositories;
 
 namespace TaskingoAPI.Services.Repositories
@@ -23,16 +25,9 @@ namespace TaskingoAPI.Services.Repositories
 
         public void AutoAssign()
         {
-            var noAssignWorkTasks = _workTaskServices
-                .GetTaskStatus("In queue")
-                .Where(x => !x.IsAssigned)
-                .OrderBy(x=> x.DeadLine)
-                .ToList();
+            var noAssignWorkTasks = GetNoAssingTasks();
 
-            var freeUsersWithNoTask = _userServices
-                .GetAllUser()
-                .Where(x => x.WorkTasksAssigned.Count(c => c.IsAssigned) < 3)
-                .ToList();
+            var freeUsersWithNoTask = FreeUsersWithNoTask();
 
             foreach (var noAssignTask in noAssignWorkTasks)
             {
@@ -47,14 +42,36 @@ namespace TaskingoAPI.Services.Repositories
                         var task = _workTaskServices.GetTaskById(noAssignTask.Id);
                         if (task.IsAssigned)
                             break;
-                        task.IsAssigned = true;
-                        task.AssignedUser = user;
-                        task.Status = "In progress";
-                        _taskingoDbContext.SaveChanges();
-
+                        SetTaskToUser(task, user);
                     }
                 }
             }
+        }
+
+        private List<WorkTask> GetNoAssingTasks()
+        {
+            var noAssignWorkTasks = _workTaskServices
+                .GetTaskStatus("In queue")
+                .Where(x => !x.IsAssigned)
+                .OrderBy(x => x.DeadLine)
+                .ToList();
+            return noAssignWorkTasks;
+        }
+        private List<User> FreeUsersWithNoTask()
+        {
+            var freeUsersWithNoTask = _userServices
+                .GetAllUser()
+                .Where(x => x.WorkTasksAssigned.Count(c => c.IsAssigned) < 3)
+                .ToList();
+            return freeUsersWithNoTask;
+        }
+
+        private void SetTaskToUser(WorkTask task, User user)
+        {
+            task.IsAssigned = true;
+            task.AssignedUser = user;
+            task.Status = "In progress";
+            _taskingoDbContext.SaveChanges();
         }
     }
 }
