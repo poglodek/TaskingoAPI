@@ -35,15 +35,13 @@ namespace TaskingoAPI.Services.Repositories
                     break;
                 foreach (var user in freeUsersWithNoTask)
                 {
-                    if (noAssignTask.WorkGroup.RoleName.Equals(user.Role.RoleName))
-                    {
-                        if (user.WorkTasksAssigned.Count(x => x.IsAssigned) > 3)
-                            break;
-                        var task = _workTaskServices.GetTaskById(noAssignTask.Id);
-                        if (task.IsAssigned)
-                            break;
-                        SetTaskToUser(task, user);
-                    }
+                    if (!noAssignTask.WorkGroup.RoleName.Equals(user.Role.RoleName)) continue;
+                    if (user.WorkTasksAssigned.Count(x => x.IsAssigned) > 3)
+                        break;
+                    var task = _workTaskServices.GetTaskById(noAssignTask.Id);
+                    if (task.IsAssigned)
+                        break;
+                    SetTaskToUser(task, user);
                 }
             }
         }
