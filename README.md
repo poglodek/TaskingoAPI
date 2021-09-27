@@ -22,7 +22,7 @@ I used SignalR to real-time chat
 <img src="https://user-images.githubusercontent.com/83174704/134965990-2bc8e3a7-da10-429a-b7ea-8c8bf76dde6d.png" />
 <img src="https://user-images.githubusercontent.com/83174704/134966047-aa408758-0391-4663-b704-4bfd52baca1f.png" />
 <br /><br/ >
-<a target="_blank" href="https://github.com/poglodek/warehouse/files/6902356/Swagger.UI.pdf">All API Call in PDF</a>
+<a target="_blank" href="https://github.com/poglodek/TaskingoAPI/files/7238521/swagger.pdf">All API Call in PDF</a>
 <hr />
 
 # Database
