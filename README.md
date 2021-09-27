@@ -32,6 +32,6 @@ I used SQL Server from  <a href="https://www.microsoft.com/pl-pl/sql-server/sql-
 SQL database In <a href= "https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver15">SQL Server Managment Studio </a><br /><br />
 <img src="https://user-images.githubusercontent.com/83174704/134966176-29ebac6a-99d4-4691-8b8d-054608fae8da.png" />
 
-#TODO
+# TODO
 - Message Encrypt 
 - SignalR New Task Notifications
