@@ -107,6 +107,16 @@ namespace TaskingoAPI.Services.Repositories
             _taskingoDbContext.SaveChanges();
         }
 
+        public List<WorkTaskDto> GetMyTasks()
+        {
+            var user = _userServices.GetUserById(_userContextServices.GetUserId());
+            var tasks = _taskingoDbContext
+                .WorkTasks
+                .Where(x => x.IsAssigned && x.AssignedUser.Equals(user));
+            var tasksDto = _mapper.Map<List<WorkTaskDto>>(tasks);
+            return tasksDto;
+        }
+
         public WorkTask GetTaskById(int id)
         {
             var task = _taskingoDbContext

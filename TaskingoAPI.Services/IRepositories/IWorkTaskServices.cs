@@ -14,6 +14,7 @@ namespace TaskingoAPI.Services.IRepositories
         WorkTaskDto GetWorkTaskDtoById(int id);
         WorkTask GetTaskById(int id);
         void UpdateWorkTask(WorkTaskUpdateDto workTaskUpdateDto);
-        
+
+        List<WorkTaskDto> GetMyTasks();
     }
 }

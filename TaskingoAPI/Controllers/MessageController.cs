@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskingoAPI.Dto.Message;
 using TaskingoAPI.Dto.User;
@@ -12,6 +13,7 @@ namespace TaskingoAPI.Controllers
 {
     [ApiController]
     [Route("/Message")]
+    [Authorize]
     public class MessageController : ControllerBase
     {
         private readonly IChatServices _chatServices;

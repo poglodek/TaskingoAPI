@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskingoAPI.Dto.WorkTime;
 using TaskingoAPI.Services.IRepositories;
@@ -11,6 +12,7 @@ namespace TaskingoAPI.Controllers
 {
     [ApiController]
     [Route("/WorkTime")]
+    [Authorize]
     public class WorkTimeController : ControllerBase
     {
         private readonly IWorkTimeServices _workTimeServices;

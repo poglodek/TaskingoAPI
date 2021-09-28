@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskingoAPI.Dto.Role;
 using TaskingoAPI.Dto.User;
@@ -12,6 +13,7 @@ namespace TaskingoAPI.Controllers
 {
     [ApiController]
     [Route("/Role")]
+    [Authorize]
     public class RoleController : ControllerBase
     {
         private readonly IRoleServices _roleServices;
@@ -26,6 +28,7 @@ namespace TaskingoAPI.Controllers
             var roles = _roleServices.GetAllRoles();
             return Ok(roles);
         }
+        [Authorize(Roles = "Admin,Manager")]
         [HttpPost]
         public ActionResult AddNewRole([FromQuery]string roleName)
         {

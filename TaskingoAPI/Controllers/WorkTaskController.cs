@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using TaskingoAPI.Dto.User;
 using TaskingoAPI.Dto.WorkTask;
@@ -8,6 +9,7 @@ namespace TaskingoAPI.Controllers
 {
     [ApiController]
     [Route("/WorkTask")]
+    [Authorize]
     public class WorkTaskController : ControllerBase
     {
         private readonly IWorkTaskServices _workTaskServices;
@@ -32,6 +34,7 @@ namespace TaskingoAPI.Controllers
             _autoAssignServices.AutoAssign();
             return Ok();
         }
+        [Authorize(Roles = "Admin,Manager")]
         [HttpPost]
         public ActionResult<int> AddWorkTask([FromBody] WorkTaskCreatedDto workTaskCreatedDto)
         {
@@ -39,6 +42,7 @@ namespace TaskingoAPI.Controllers
             _autoAssignServices.AutoAssign();
             return Created($"/WorkTask/{id}", null);
         }
+        [Authorize(Roles = "Admin,Manager")]
         [HttpDelete("{id}")]
         public ActionResult Delete([FromRoute] int id)
         {
@@ -49,19 +53,20 @@ namespace TaskingoAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult Get([FromRoute] int id)
         {
-            var user = _workTaskServices.GetWorkTaskDtoById(id);
+            var task = _workTaskServices.GetWorkTaskDtoById(id);
+            return Ok(task);
+        }
+        [HttpGet("GetMyTasks")]
+        public ActionResult<List<WorkTaskDto>> GetMyTasks()
+        {
+            var user = _workTaskServices.GetMyTasks();
             return Ok(user);
         }
+        [Authorize(Roles = "Admin,Manager")]
         [HttpPatch]
         public ActionResult Update([FromBody] WorkTaskUpdateDto workTaskUpdateDto)
         {
             _workTaskServices.UpdateWorkTask(workTaskUpdateDto);
-            _autoAssignServices.AutoAssign();
-            return Ok();
-        }
-        [HttpGet("test")]
-        public ActionResult<List<UserDto>> test()
-        {
             _autoAssignServices.AutoAssign();
             return Ok();
         }
